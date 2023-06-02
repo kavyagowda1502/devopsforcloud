@@ -1,0 +1,117 @@
+nodejs
+
+sudo apt-get install nodejs npm -y
+sudo npm install
+sudo npm install -g pm2
+sudo pm2 start app.js
+
+#if error
+sudo su -
+usermod -a -G sudo jenkins
+sudo visudo (mail)(ALL ALL)
+services jenkins start
+
+-----------------------------------
+
+DOCKER
+
+terminal:
+sudo docker login
+
+login in to dockerhub
+
+jenkins;
+manage jenkins--> manage nodes and clouds --> new node ---> name -->permanent agent --> home/msis ---> launch it via ..... controller
+apply and save
+
+terminal:
+run 2 commands
+
+jenkins:
+new item--> freestyle project --> 
+git --> https:.......nodejsdockerdemo.git
+branch: */main
+add build steps: docker build and publish
+copy your repo name:
+image name:
+regsitry credentials
+
+
+apply and save 
+
+--------------------------------------
+
+sudo docker build -t kavya:v1 .
+sudo docker run -it -d --name container -p 3020:8080 kavya:v1
+sudo docker tag kavya:v1 kavyamanipal/newdocker
+sudo docker push kavyamanipal/newdocker
+---------------------------------------------------
+
+if .sock error comes
+
+terminal:
+sudo usermod -aG docker jenkins
+sudo usermod -aG root jenkins
+sudo chmod 664/var/run/docker.sock
+sudo chmod 777/var/run/docker.sock
+sudo apt install docker.io
+sudo apt-get remove containerd.io
+sudo apt install docker.io docker-compose -y
+systemctl start docker
+
+start from beginning..
+
+-----------------------------------------------------------
+
+Kubernetes:
+
+sudo ssh msis@172.16.51.
+cd basic_php_website/
+
+sudo nano hosts .....deployment.yaml
+sudo nano hosts .....service.yaml
+
+kubectl create -f deployment.yaml
+kubectl create -f service.yaml
+
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+kubectl get pods
+kubectl get service
+
+kubectl describe pods/pod_name
+
+--------------------------------------
+
+java
+
+sudo apt-get install tomcat9 tomcat9-admin
+sudo systemctl restart tomcat9
+sudo systemctl status tomcat9
+ 
+sudo nano /etc/tomcat9/tomcat-users.xml     
+add below code in it 
+<user username="jenkins" password="jenkins@123" roles="manager-script,admin-gui"/>
+ 
+ 
+create a freeStyleProject -- Java_Maven_JSP_Build
+add git repo -- https://github.com/sreepathysois/MyMavenApp.git
+build steps --  Invoke top-level Maven targets  --- mymaven, goals - clean compile
+Post-build Actions   --  Build other projects --> Java_Maven_JSP_Package 
+appy and save
+ 
+create a freeStyleProject -- Java_Maven_JSP_Package
+add git repo -- https://github.com/sreepathysois/MyMavenApp.git
+build steps --  Invoke top-level Maven targets  --- mymaven, goals - package
+Post-build Actions   --  Build other projects --> Java_Maven_JSP_Deploy 
+appy and save
+ 
+
+create a freeStyleProject -- Java_Maven_JSP_Deploy
+add git repo -- https://github.com/sreepathysois/MyMavenApp.git
+Post-build Actions   --   Deploy war/ear to a container --> */.war --> MyMavenApp
+                     --   containers --  select --Tomcat 9.x Remote 
+                     -- credentials -- give creds as given in ( sudo nano /etc/tomcat9/tomcat-users.xml)
+                     -- tomcat url -- http://172.16.51.67:8080  --> slave ip
+appy and save
