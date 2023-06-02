@@ -1,4 +1,12 @@
-nodejs
+master-slave connection
+
+sudo ssh msis@connecting_ip_address
+sudo scp agent.jar msis@connecting_ip_address:/home/msis/Downloads
+
+run agent.jar's curl commands
+-------------------------------------------------------------------------
+
+NODEJS
 
 sudo apt-get install nodejs npm -y
 sudo npm install
@@ -40,6 +48,9 @@ regsitry credentials
 apply and save 
 
 --------------------------------------
+#optional
+
+add build action- execute shell
 
 sudo docker build -t kavya:v1 .
 sudo docker run -it -d --name container -p 3020:8080 kavya:v1
@@ -63,7 +74,7 @@ start from beginning..
 
 -----------------------------------------------------------
 
-Kubernetes:
+KUBERNETES:
 
 sudo ssh msis@172.16.51.
 cd basic_php_website/
@@ -84,7 +95,7 @@ kubectl describe pods/pod_name
 
 --------------------------------------
 
-java
+JAVA 
 
 sudo apt-get install tomcat9 tomcat9-admin
 sudo systemctl restart tomcat9
@@ -115,3 +126,22 @@ Post-build Actions   --   Deploy war/ear to a container --> */.war --> MyMav
                      -- credentials -- give creds as given in ( sudo nano /etc/tomcat9/tomcat-users.xml)
                      -- tomcat url -- http://172.16.51.67:8080  --> slave ip
 appy and save
+
+-------------------------------------------------------------------------------------------------------------
+
+ANSIBLE
+
+sudo git clone https://github.com/sreepathysois/AnsibleWorkUpdated.git
+cd AnsibleWorkUpdated
+ls
+cd ansible-apache
+sudo nano hosts
+
+sudo ssh-keygen -t rsa
+    -->enter passphrase: press enter
+    -->again press enter
+sudo ssh-copy-id -i msis.pub msis@slave_ip
+sudo apt-get install sshpass
+sudo ansible-playbook apache.yml -i hosts -c ssh --ask-pass
+sudo ansible-playbook apache.yml -i hosts -c ssh -k
+
