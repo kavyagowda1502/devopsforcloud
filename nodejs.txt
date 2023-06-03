@@ -63,8 +63,8 @@ if .sock error comes
 terminal:
 sudo usermod -aG docker jenkins
 sudo usermod -aG root jenkins
-sudo chmod 664/var/run/docker.sock
-sudo chmod 777/var/run/docker.sock
+sudo chmod 664 /var/run/docker.sock
+sudo chmod 777 /var/run/docker.sock
 sudo apt install docker.io
 sudo apt-get remove containerd.io
 sudo apt install docker.io docker-compose -y
